@@ -99,6 +99,9 @@ To move from a "Conservative" base case to an "Industry Standard" model, I recal
 
 During the sensitivity analysis, the optimization engine returned an anomalously high **ROI of 140%**. Upon inspection, the model had allocated 100% of the capital to **"Early Phase 1"** assets with massive enrollment numbers (NCT00534755, N=10,000).
 
+![enrollment_arbitrage_discovery](enrollment_arbitrage_discovery.png)
+**Figure 1**: Diagnostic Scatter Plot identifying the "Enrollment Arbitrage." The red dashed line indicates the 1,000-patient threshold where Early Phase assets were flagged as "False Positives"—screening studies misidentified by the model as blockbuster drug candidates.
+
 ### The "Loophole" Explained
 The model uses `log(enrollment)` as a proxy for commercial revenue potential.
 * **Algorithm's View:** High Enrollment (10k) + Low Phase 1 Cost (€10M) = **Infinite Alpha**.
