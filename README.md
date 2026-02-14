@@ -30,7 +30,7 @@
 ### 1. The Investment Frontier
 *Visualizing the "Top 12" selected assets against the noise of 27,000+ potential candidates.*
 ![Investment Frontier](investment_frontier.png)
-*(Note: Replace with your actual image path or upload the image to your repo)*
+
 
 ### 2. Scenario Analysis
 *Comparing strategic outcomes: Risk-Seeking vs. Risk-Averse vs. Speed-Focus.*
@@ -40,10 +40,9 @@
 
 ## 🛠️ Technical Architecture
 
-This project moves beyond basic data analysis into **Operations Research** and **Strategic Finance**.
 
 ### 1. Data Engineering (The Funnel)
-* **Source:** Processed **400,000+ raw clinical trial records** (NCT data).
+* **Source:** Processed **400,000+ raw clinical trial records** (NCT data).[[Dataset]](https://huggingface.co/datasets/louisbrulenaudet/clinical-trials)
 * **Cleaning:** Implemented a rigorous filtration pipeline (Status, Intervention Type, Enrollment) to isolate **130,000 investable assets**.
 * **Feature Engineering:** Created synthetic financial features including `revenue_proxy` (via log-normal enrollment scaling) and `probability_of_success`.
 
