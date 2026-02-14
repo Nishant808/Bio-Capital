@@ -77,3 +77,34 @@ prob += pulp.lpSum([invest_vars[i] * costs[i] for i in nct_ids]) <= budget_limit
 
 # Solve
 prob.solve()
+```
+## STRESS TESTING
+### 🔧 Model Recalibration
+To move from a "Conservative" base case to an "Industry Standard" model, I recalibrated the phase-specific parameters based on NIH and Nature Review benchmarks.
+
+| Phase        | Old PoS | New PoS | Old Cost | New Cost | Old Years | New Years |
+|--------------|---------|---------|----------|----------|-----------|-----------|
+| EARLY_PHASE1 | 5%      | 10%     | 15M      | 10M      | 8         | 8         | 
+| PHASE1       | 10%     | 15%     | 25M      | 25M      | 7         | 6         | 
+| PHASE2       | 18%     | 30%     | 60M      | 50M      | 5         | 4         |
+| PHASE3       | 45%     | 60%     | 255M     | 150M     | 3         | 2         |
+
+* **Probability of Success (PoS):** Adjusted Phase 3 from 45% → 60% to reflect current Oncology approval rates.
+* **Capital Intensity:** Normalized Phase 3 costs from €255M → €150M to represent average per-trial spend vs. total program spend.
+* **Temporal Velocity:** Optimized "Years to Market" (e.g., Phase 3 reduced from 3 years → 2 years) to align with accelerated FDA approval pathways in Oncology.
+
+**Impact:** These adjustments provided the "Alpha" necessary for the engine to identify the 140% ROI opportunity, while also exposing the "Enrollment Arbitrage" loophole in early-phase data.
+
+## ⚠️ Model Limitations & "Enrollment Arbitrage" Discovery
+
+During the sensitivity analysis, the optimization engine returned an anomalously high **ROI of 140%**. Upon inspection, the model had allocated 100% of the capital to **"Early Phase 1"** assets with massive enrollment numbers (NCT00534755, N=10,000).
+
+### The "Loophole" Explained
+The model uses `log(enrollment)` as a proxy for commercial revenue potential.
+* **Algorithm's View:** High Enrollment (10k) + Low Phase 1 Cost (€10M) = **Infinite Alpha**.
+* **Clinical Reality:** In Oncology, Phase 1 trials with >1,000 patients are typically **Observational/Screening studies** (e.g., genetic sequencing registries) rather than interventional drug trials. These assets generate **zero** commercial revenue.
+
+### The Fix (Human-in-the-Loop)
+This discovery highlights the risk of "Blind Optimization."
+* **Immediate Action:** Manually flagged N=10,000 Phase 1 trials as data artifacts.
+* **Code Implementation:** Added a `MAX_PHASE1_ENROLLMENT = 500` constraint to the cleaning pipeline to prevent "Screening Studies" from contaminating the commercial revenue model.
